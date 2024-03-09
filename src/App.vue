@@ -1,0 +1,1 @@
+<template>My Expenses Tracker</template>
