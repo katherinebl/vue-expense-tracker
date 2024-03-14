@@ -3,7 +3,7 @@
   <div class="container">
     <Balance :total="+total"/>
     <IncomeExpense :income="+income" :expenses="+expenses"/>
-    <TransactionList :transactions="transactions"/>
+    <TransactionList :transactions="transactions" @transactionDeleted="handleTransactionDeleted"/>
     <AddTransaction @transactionSubmitted="handleTransactionSubmitted"/>
   </div>
 </template>
@@ -18,6 +18,8 @@
   import { ref, computed  } from 'vue'
 
   import { useToast } from "vue-toastification";
+
+  const toast = useToast()
 
   const transactions = ref([
       { id: 1, text: 'Book', amount: -20 },
@@ -52,19 +54,24 @@
   })
 
   //Add Transaction
-  const handleTransactionSubmitted = (transactionData) => {
-    const toast = useToast()
-    
+  const handleTransactionSubmitted = (transactionData) => {    
     transactions.value.push({
       id: generateRandomId(),
       text: transactionData.text,
       amount: parseInt(transactionData.amount)
     })
-    toast.success('Trasaction added!')
 
+    toast.success('Trasaction added!')
   }
 
   const generateRandomId = () => {
     return Math.floor(Math.random() * 1000000)
+  }
+
+  //Delete Transaction
+  const handleTransactionDeleted = (id) => {
+    transactions.value = transactions.value.filter(transaction => transaction.id !== id)
+
+    toast.success('Trasaction deleted!')
   }
 </script>
