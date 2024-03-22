@@ -3,8 +3,13 @@
   <div class="container">
     <Balance :total="+total"/>
     <IncomeExpense :income="+income" :expenses="+expenses"/>
-    <TransactionList :transactions="transactions" @transactionDeleted="handleTransactionDeleted"/>
-    <AddTransaction @transactionSubmitted="handleTransactionSubmitted"/>
+    <TransactionList 
+      :transactions="transactions" 
+      @transactionDeleted="handleTransactionDeleted" 
+      @transactionToBeUpdated="handleTransactionToBeUpdated"/>
+    <AddTransaction 
+      :transaction="transactionToUpdate" 
+      @transactionSubmitted="handleTransactionSubmitted"/>
   </div>
 </template>
 
@@ -22,6 +27,7 @@
   const toast = useToast()
 
   const transactions = ref([])
+  const transactionToUpdate = ref(null)
 
   onMounted(() => {
     const savedTransactions = JSON.parse(localStorage.getItem("transactions"))
@@ -81,6 +87,12 @@
 
     toast.success('Trasaction deleted!')
   }
+
+  //Update Transaction
+  const handleTransactionToBeUpdated = (transaction) => {
+    transactionToUpdate.value = transaction
+    console.log('Transaction to update:', transaction)
+  } 
 
   //Save in LocalStorage
   const saveTransactionsInLS = () => {

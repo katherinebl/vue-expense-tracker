@@ -5,6 +5,7 @@
             v-for="transaction in transactions"
             :key="transaction.id"
             :class="transaction.amount < 0 ? 'minus' : 'plus'"
+            @click="updateTransaction(transaction)" 
         >
             {{ transaction.text }} <span>€{{ transaction.amount }}</span><button @click="deleteTransaction(transaction.id)" class="delete-btn">x</button>
         </li>
@@ -21,9 +22,13 @@ const props = defineProps({
     }
 })
 
-const emit = defineEmits(['transactionDeleted'], id)
+const emit = defineEmits(['transactionDeleted', 'transactionToBeUpdated'], id)
 
 const deleteTransaction = (id) => {
     emit('transactionDeleted', id)
+}
+
+const updateTransaction = (transaction) => {
+    emit('transactionToBeUpdated', transaction)
 }
 </script>
