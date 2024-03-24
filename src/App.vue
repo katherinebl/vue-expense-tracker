@@ -6,10 +6,13 @@
     <TransactionList 
       :transactions="transactions" 
       @transactionDeleted="handleTransactionDeleted" 
-      @transactionToBeUpdated="handleTransactionToBeUpdated"/>
+      @transactionToBeUpdated="handleTransactionToBeUpdated"
+      @transactionUpdated="handleTransactionUpdated"/>
     <AddTransaction 
       :transaction="transactionToUpdate" 
-      @transactionSubmitted="handleTransactionSubmitted"/>
+      @transactionSubmitted="handleTransactionSubmitted"
+      @transactionUpdated="handleTransactionUpdated"
+      />
   </div>
 </template>
 
@@ -91,8 +94,18 @@
   //Update Transaction
   const handleTransactionToBeUpdated = (transaction) => {
     transactionToUpdate.value = transaction
-    console.log('Transaction to update:', transaction)
   } 
+
+  const handleTransactionUpdated = (updatedTransaction) => {
+    const index = transactions.value.findIndex(transaction => transaction.id === updatedTransaction.id)
+    
+    if (index !== -1) {
+      transactions.value[index] = updatedTransaction;
+    }
+    saveTransactionsInLS()
+
+    toast.success('Trasaction updated!')
+  }
 
   //Save in LocalStorage
   const saveTransactionsInLS = () => {

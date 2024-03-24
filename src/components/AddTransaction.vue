@@ -49,18 +49,21 @@ const onSubmit = () => {
   }
 
   const transactionData = {
+    id: props.transaction ? props.transaction.id : null,
     text: text.value,
     amount: amount.value
   }
 
   if (props.transaction) {
     emit('transactionUpdated', transactionData)
+    buttonText.value = 'Update Transaction';
   } else {
     emit('transactionSubmitted', transactionData)
+    buttonText.value = 'Add Transaction'
   }
-
   text.value = ''
   amount.value = ''
+
 }
 </script>
 
