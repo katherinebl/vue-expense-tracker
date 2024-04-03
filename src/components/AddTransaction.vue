@@ -28,6 +28,7 @@ const props = defineProps({
 
 const text = ref('')
 const amount = ref('')
+const buttonText = ref('Add Transaction')
 const emit = defineEmits(['transactionSubmitted', 'transactionUpdated'])
 
 watch(() => props.transaction, (newValue) => {
@@ -37,8 +38,6 @@ watch(() => props.transaction, (newValue) => {
     buttonText.value = 'Update Transaction'
   }
 })
-
-const buttonText = ref(props.transaction ? 'Update Transaction' : 'Add Transaction')
 
 const onSubmit = () => {
   const toast = useToast();
@@ -56,10 +55,9 @@ const onSubmit = () => {
 
   if (props.transaction) {
     emit('transactionUpdated', transactionData)
-    buttonText.value = 'Update Transaction';
+    buttonText.value = 'Add Transaction';
   } else {
     emit('transactionSubmitted', transactionData)
-    buttonText.value = 'Add Transaction'
   }
   text.value = ''
   amount.value = ''
