@@ -29,7 +29,7 @@ const props = defineProps({
 const text = ref('')
 const amount = ref('')
 const buttonText = ref('Add Transaction')
-const emit = defineEmits(['transactionSubmitted', 'transactionUpdated'])
+const emit = defineEmits(['transactionSubmitted', 'transactionUpdated', 'resetTransaction'])
 
 watch(() => props.transaction, (newValue) => {
   if (newValue) {
@@ -56,12 +56,12 @@ const onSubmit = () => {
   if (props.transaction) {
     emit('transactionUpdated', transactionData)
     buttonText.value = 'Add Transaction';
+    emit('resetTransaction', null)
   } else {
     emit('transactionSubmitted', transactionData)
   }
   text.value = ''
   amount.value = ''
-
 }
 </script>
 

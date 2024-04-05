@@ -7,11 +7,12 @@
       :transactions="transactions" 
       @transactionDeleted="handleTransactionDeleted" 
       @transactionToBeUpdated="handleTransactionToBeUpdated"
-      @transactionUpdated="handleTransactionUpdated"/>
+      />
     <AddTransaction 
       :transaction="transactionToUpdate" 
       @transactionSubmitted="handleTransactionSubmitted"
       @transactionUpdated="handleTransactionUpdated"
+      @resetTransaction="handleResetTransaction"
       />
   </div>
 </template>
@@ -96,9 +97,14 @@
     transactionToUpdate.value = transaction
   } 
 
+  const handleResetTransaction = (resetTransaction) => {
+    transactionToUpdate.value = resetTransaction;
+  }
+
   const handleTransactionUpdated = (updatedTransaction) => {
     const index = transactions.value.findIndex(transaction => transaction.id === updatedTransaction.id)
     
+    //checks if a transaction with a matching ID was found
     if (index !== -1) {
       transactions.value[index] = updatedTransaction;
     }
